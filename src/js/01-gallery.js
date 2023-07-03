@@ -4,13 +4,13 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 // Change code below this line
 
-const galleryContainer = document.querySelector('.gallery');
-const itemsMarkup = createGalleryItems(galleryItems);
+export const galleryContainer = document.querySelector('.gallery');
+export const itemsMarkup = createGalleryItems(galleryItems);
 galleryContainer.insertAdjacentHTML('beforeend', itemsMarkup);
 
 galleryContainer.addEventListener('click', onGalleryContainerClick);
 
-function createGalleryItems(images) {
+export function createGalleryItems(images) {
   return images
     .map(({ preview, original, description }) => {
       return `<li class="gallery__item">
@@ -22,7 +22,7 @@ function createGalleryItems(images) {
     .join('');
 }
 
-function onGalleryContainerClick(event) {
+export function onGalleryContainerClick(event) {
   event.preventDefault();
   if (!event.target.classList.contains('gallery__image')) {
     return;
