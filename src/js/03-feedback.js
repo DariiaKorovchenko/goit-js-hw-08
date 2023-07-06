@@ -1,46 +1,39 @@
 import _ from 'lodash';
 
-const refs = {
-  form: document.querySelector('form'),
-  email: document.querySelector('input'),
-  message: document.querySelector('textarea'),
-};
+const form = document.querySelector('form');
 
-refs.form.addEventListener('submit', onFormSubmit);
-refs.email.addEventListener('input', _.throttle(onEmailInput, 500));
-refs.message.addEventListener('input', _.throttle(onTextareaInput, 500));
+form.addEventListener('submit', onFormSubmit);
+form.addEventListener('input', _.throttle(onFormInput, 500));
 
-const dataValues = {
-  email: '',
-  message: '',
-};
+let dataValues = {};
 const FORM_STORAGE_KEY = 'feedback-form-state';
+const value = localStorage.getItem(FORM_STORAGE_KEY);
+const valuesJSON = JSON.parse(value);
 populateTextarea();
 
-function onEmailInput(event) {
-  dataValues.email = event.target.value;
-  localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(dataValues));
-}
-
-function onTextareaInput(event) {
-  dataValues.message = event.target.value;
+function onFormInput(event) {
+  dataValues[event.target.name] = event.target.value;
   localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(dataValues));
 }
 
 function populateTextarea() {
-  const value = localStorage.getItem(FORM_STORAGE_KEY);
-  const valuesJSON = JSON.parse(value);
   if (value) {
-    refs.email.value = valuesJSON.email;
-    dataValues.email = valuesJSON.email;
-    refs.message.value = valuesJSON.message;
-    dataValues.message = valuesJSON.message;
+    dataValues = valuesJSON;
+    for (key in dataValues) {
+      form.elements[key].value = dataValues[key];
+    }
   }
 }
 
 function onFormSubmit(event) {
-  console.log(dataValues);
   event.preventDefault();
-  event.currentTarget.reset();
+  if (dataValues) {
+    for (key in dataValues) {
+      dataValues[key] = form.elements[key].value;
+    }
+    console.log(dataValues);
+  }
+  dataValues = {};
   localStorage.removeItem(FORM_STORAGE_KEY);
+  event.currentTarget.reset();
 }
