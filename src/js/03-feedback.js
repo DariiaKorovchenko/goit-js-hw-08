@@ -22,7 +22,7 @@ function onFormInput(event) {
 function populateTextarea() {
   if (value) {
     dataValues = valuesJSON;
-    for (key in dataValues) {
+    for (let key in dataValues) {
       form.elements[key].value = dataValues[key];
     }
   }
