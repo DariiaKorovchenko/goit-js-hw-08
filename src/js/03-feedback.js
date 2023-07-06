@@ -5,7 +5,10 @@ const form = document.querySelector('form');
 form.addEventListener('submit', onFormSubmit);
 form.addEventListener('input', _.throttle(onFormInput, 500));
 
-let dataValues = {};
+let dataValues = {
+  email: '',
+  message: '',
+};
 const FORM_STORAGE_KEY = 'feedback-form-state';
 const value = localStorage.getItem(FORM_STORAGE_KEY);
 const valuesJSON = JSON.parse(value);
@@ -33,7 +36,10 @@ function onFormSubmit(event) {
     }
     console.log(dataValues);
   }
-  dataValues = {};
+  dataValues = {
+    email: '',
+    message: '',
+  };
   localStorage.removeItem(FORM_STORAGE_KEY);
   event.currentTarget.reset();
 }
