@@ -31,7 +31,7 @@ function populateTextarea() {
 function onFormSubmit(event) {
   event.preventDefault();
   if (dataValues) {
-    for (key in dataValues) {
+    for (let key in dataValues) {
       dataValues[key] = form.elements[key].value;
     }
     console.log(dataValues);
